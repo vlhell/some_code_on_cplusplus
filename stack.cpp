@@ -3,104 +3,74 @@
 //V.Bogdanov
 //2019
 
-#include <cstdio>
 #include <iostream>
 #include <cmath>
 #include <algorithm>
+#include <array>
 
-using namespace std;
 
+template <typename T, int N = 100>
 class Stack
 {
-    int a[100];
-    int maxs[100];
+    std::array<T, N> a;
+    std::array<T, N> maxs;
     int top;
+
 public:
-    Stack(){
-        for (int j = 0; j < 100; ++j){
-            a[j] = 0;
-            maxs[j] = 0;
-        }
-        top = -1;
-    }
-    void Push(int val){
-        if (top == 99){
+    Stack() : top(-1) {}
+
+    void Push(T val) {
+        if (top == N - 1) {
             throw "Stack is full!";
         }
         a[++top] = val;
-        if (top == 0)
+        if (top == 0) {
             maxs[top] = val;
-        else
-            maxs[top] = max(maxs[top - 1], val);
+        } else {
+            maxs[top] = std::max(maxs[top - 1], val);
+        }
     }
-    int Pop(){
-        if (top == -1){
+
+    T Pop() {
+        if (top == -1) {
             throw "Stack is empty!";
         }
-        int ret = a[top];
-
-        top--;
-        return ret;
+        return a[top--];
     }
-    int Max(){
-        if (top == -1){
+
+    T Max() {
+        if (top == -1) {
             throw "Stack is empty!";
         }
         return maxs[top];
     }
 };
 
-int main(){
 
+int main() {
     int n;
+    std::cin >> n;
 
-    scanf("%d", &n);
+    Stack<int> st;
 
-    int x;
-
-    Stack st;
-
-    for (int i = 0; i < n; ++i){
-        scanf("%d", &x);
-        try
-        {
+    for (int i = 0; i < n; ++i) {
+        int x;
+        std::cin >> x;
+        try {
             st.Push(x);
-        }
-        catch (const char* msg)
-        {
-            printf("%s\n", msg);
+        } catch (const char* msg) {
+            std::cerr << msg << '\n';
         }
     }
 
-    /*
-        for (int i = 0; i < 100; ++i){
-            try
-            {
-                st.Push(1);
-            }
-            catch (const char* msg)
-            {
-                printf("%s\n", msg);
-            }
-    }
-    */
+    std::cout << '\n';
 
-    printf("\n");
-
-    int max_curr = -1;
-
-    for (int i = 0; i < n + 1; ++i){
-        try
-        {
-            {
-                max_curr = st.Max();
-
-                printf("top = %d, max = %d\n", st.Pop(), max_curr); 
-            }
-        }
-        catch(const char* msg)
-        {
-            cerr << msg << '\n';
+    for (int i = 0; i < n + 1; ++i) {
+        try {
+            int max_curr = st.Max();
+            std::cout << "top = " << st.Pop() << " , max = " << max_curr << '\n'; 
+        } catch(const char* msg) {
+            std::cerr << msg << '\n';
         }
     }
 
