@@ -4,7 +4,6 @@
 //2019
 
 #include <iostream>
-#include <cmath>
 #include <algorithm>
 #include <array>
 
@@ -38,7 +37,7 @@ public:
         return a[top--];
     }
 
-    T Max() {
+    T Max() const {
         if (top == -1) {
             throw "Stack is empty!";
         }
